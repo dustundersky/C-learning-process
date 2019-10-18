@@ -42,7 +42,7 @@ constant is a fixed value which is stored in storage.
     
     Expression in C:
     int main()
-    int i=1;
+    int i=1;  //创造一个4字节的空间还是从规划的空间中取呢？不清楚，并且定义为i，里面存储的数据定义为整数（实际的还要待后续学习）
     int i,j,k;
     .....
     
