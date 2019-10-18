@@ -1,0 +1,24 @@
+1.what is variable
+In my opinion,the way we define a variable isjust name a specific space in storage,and then we can put specific data in.Yes, two factor.
+
+type name;
+such as 
+int i;
+float j;//提一下内存的释放？
+
+2.operation
+2.1 assignment =
+equal-sign here is not what we thought at math,it means assignment,the function means that we put a thing(value) in to a box(storage)
+
+
+expression as below:
+int i;
+int i=1;//we should initialize the value as first in case some bugs occur.
+int i=1,j=2;//we have to define all variabiesat the first of the program in C.it related to complier,like C89,C99.
+
+
+3. local and global
+
+
+4.name rule 
+make the name meaningful as possible.do not always one letter.
