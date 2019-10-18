@@ -1,0 +1,33 @@
+1.what is constant
+constant is a fixed value which is stored in storage.
+2.type
+ 2.1 integer
+ such as 1,-1,10000.which is represented by complement code in computer.
+ PS:how data is stored in storage?
+    storage only could express 1 and 0.we use multiple place to express human language.
+    such as :1    ~~  0001
+             2    ~~  0010
+             or
+             1  ~~ 00000001
+             2  ~~ 00000010
+    how many unmber can be represented?
+    2*(number of place),8 p=1byte, which can indicate 256 number.
+    integer use 4 bytes to store the information.
+    what is complement?
+    
+    Expression in C:
+    int main()
+    int i=1;
+    int i,j,k;
+    .....
+    
+    
+ 2.2 float
+ 
+ 2.3 letter
+ 
+ 2.4 string
+ 
+ 3.shift of type
+ 
+ 
