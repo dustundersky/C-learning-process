@@ -1,1 +1,143 @@
+1.逻辑结构
+线性表是由同一类型的数据元素构成的线性结构，数据之间的关系仅仅就是相邻；
 
+适合用数组的形式表示（a1, a2, …, ai-1, ai, ai+1, …, an）；在此基础上就有所谓前趋和后继的属性，当然，a1和an这个属性不完全。
+
+对于这个表的基本操作主要有以下几种（考虑数据结构的操作，最好的类比对象应该就是我们操作excel的时候了）：
+
+（1）线性表初始化：Init_List(L)      //excel新建空白表格（只有一行的表格）
+
+（2）求线性表的长度：Length_List (L) //这步表格默认似乎无限长，查了下，2007以后的版本最长1048576行
+
+（3）取表元：Get_List (L, i)   //指定地点取值
+
+（4）按值查找：Locate_List (L, x) //查找某个值得位置
+
+（5）插入操作：Insert_List (L, i, x)   //行中增加一个值
+
+（6）删除操作：Delete_List (L, i)   //行中减少一个值。
+
+
+2.顺序表
+
+线性表的顺序存储是指在内存中用地址连续的一块存储空间顺序存放线性表中的各数据元素，用这种存储形式存储的线性表称为顺序表
+
+只要知道顺序表首地址和每个数据元素所占单元的个数就可求出第i个数据元素的地址来；
+
+
+在上面的操作下很容易知道我们要指定足够大的空间来容纳增减操作，设用data[MAXSIZE]来表示；
+另外存放从第一格开始，也就是a0，此时需要定位最后一格数据的位置，这个位置是变化的怎么办？
+需用变量last记录当前线性表中最后一个元素在数组中的位置，即last起一个指针的作用，始终指向线性表中最后一个元素，因此，表空时last=-1
+
+上面的表述封装成程序语言表示为：
+typedef struct
+            { datatype data[MAXSIZE]；
+            int last；
+            } SeqList；
+
+Seqlist L; //定义L表
+L.last+1就是表长，数据分布就是L[0]--L[L.last]
+
+在C语言中，用指针表示last
+SeqList  *L
+
+表长表示为(*L).last+1或 L->last+1
+线性表的存储区域为L->data，L->data[0] ~ L->data[L->last]。
+
+
+下面是C语言的操作实现
+
+SeqList *init_SeqList( )
+     { SeqList *L；
+       L=(SeqList *)malloc(sizeof(SeqList))；
+       L->last=-1；
+       return L；
+}
+main( )
+    { SeqList *L；
+      L=init_SeqList( )；
+       …
+}
+
+
+int Insert_SeqList(SeqList *L，int i，datatype x)
+{ int j；
+  if ( L->last== MAXSIZE-1 )
+     { printf("表满")； return(-1)； }     /*表空间已满，不能插入*/
+  if (i<1 || i>L->last+2)                  /*检查插入位置的正确性*/
+     { printf("位置错")； return(0)； }
+  for (j=L->last；j>= i-1；j--)
+      L->data[j+1]=L->data[j]；            /* 结点移动 */
+  L->data[i-1]=x；                         /*新元素插入*/
+  L->last++；                              /*last仍指向最后一个元素*/
+  return (1)；                             /*插入成功，返回*/
+}
+
+
+int Delete_SeqList (SeqList *L; int i)
+  { int j；
+    if ( i<1 || i>L->last+1)                         /*检查空表及删除位置的合法性*/
+      { printf ("不存在第i个元素")； return(0)； }
+    for ( j=i；j<=L->last；j++ )
+          L->data[j-1]=L->data[j]；                  /*向上移动*/
+    L->last- -；
+    return(1)；                                      /*删除成功*/
+}
+
+
+int Location_SeqList (SeqList *L，datatype x)
+   { int i=0；
+     while ( i<=L.last && L->data[i]!= x)
+          i++；
+     if ( i>L->last) return -1；
+      else  return i；              /*返回的是存储位置*/
+}
+
+衍生算法
+void partition (SeqList *L)
+    { int i，j；
+      datatype x，y；
+      x=L->data[0]；                                /*将基准置入 x 中*/
+      for (i=1；i<=L->last；i++)
+          if (L->data[i]<x)                         /*当前元素小于基准*/
+              { y=L->data[i]；
+                for (j=i-1；j>=0；j- -)             /*移动*/
+                     L－>data[j+1]=L->data[j]；
+                     L->data[0]=y；
+       }
+
+
+
+void merge (SeqList A, SeqList B, SeqList *C)
+  { int i，j，k；
+  int compare( A, B, m, n)
+int A[ ]，B[ ]；
+int m，n；
+{ int i=0, j，AS[ ]，BS[ ]，ms=0，ns=0；      /*AS, BS作为A′, B′*/
+     while (A[i]==B[i]) i++；                 /*找最大共同前缀*/
+     for (j=i；j<m；j++)
+          { AS[j-i]=A[j]； ms++； }           /*求A′, ms为A′的长度*/
+     for (j=i；j<n；j++)
+          { BS[j-i]=B[j]； ns++； }           /*求B′, ns为B′的长度*/
+     if (ms==ns&&ms==0) return 0；
+       else if (ms==0&&ns>0 || ms>0 && ns>0 && AS[0]<BS[0]) return -1；
+             else return 1；
+}
+
+    i=0；j=0；k=0；
+    while ( i<=A.last && j<=B.last )
+       if (A.data[i]<B.data[j])
+           C->data[k++]=A.data[i++]；
+       else
+           C->data[k++]=B.data[j++]；
+    while (i<=A.last )
+           C->data[k++]= A.data[i++]；
+    while (j<=B.last )
+           C->data[k++]=B.data[j++]；
+    C->last=k-1；
+}
+
+
+
+
+3.链式表
